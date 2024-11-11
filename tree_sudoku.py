@@ -23,8 +23,8 @@ def import_csv():
     return list_of_boards
  
 class SudokuSolver:
-    def __init__(self):
-        self.board_strings = import_csv()
+    def __init__(self, board_strings):
+        self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.box_index_table = self.fill_box_index_table()
         self.board_index_table = self.fill_board_index_table()
@@ -173,7 +173,7 @@ class Tree_Node:
     def __str__(self):
         return self.value
 start = time.time()
-solver = SudokuSolver()
+solver = SudokuSolver(import_csv())
 for key, solution in solver.solved_board_strings.items():
     print(f"Board: {key}")
     solver.print_board(solver.strings_to_board_dict([solution])['0'])
