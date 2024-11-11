@@ -24,10 +24,6 @@ class SudokuSolver:
         for key, value in self.boards_dict.items():
             return_string = self.tree_to_solution_string(value)
             self.solved_board_strings[key] = return_string
-        for key, solution in self.solved_board_strings.items():
-            print(f"Board: {key}")
-            self.print_board(self.strings_to_board_dict([solution])['0'])
-
     def tree_to_solution_string(self, original_board):
         index = 0
         head_node = Tree_Node(index, self.board_index_table[index])
@@ -176,5 +172,9 @@ class Tree_Node:
     def __str__(self):
         return self.value
 start = time.time()
-x = SudokuSolver()
+solver = SudokuSolver()
+for key, solution in solver.solved_board_strings.items():
+    print(f"Board: {key}")
+    solver.print_board(solver.strings_to_board_dict([solution])['0'])
+
 end = time.time()
