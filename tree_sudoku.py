@@ -7,6 +7,11 @@ import csv
 import re
 import copy
 import time
+
+BASIS = 3
+DIM = BASIS * BASIS
+MAX = DIM * DIM
+
 class SudokuSolver:
     def __init__(self):
         self.board_strings = self.import_csv()
@@ -21,7 +26,7 @@ class SudokuSolver:
         index = 0
         head_node = Tree_Node(index, self.board_index_table[index])
         current_node = head_node
-        while index < 81:
+        while index < MAX:
             current_board_filling_node = head_node
             test_board = copy.deepcopy(original_board)
             test_board[int(current_board_filling_node.board_spot[0])][int(current_board_filling_node.board_spot[1])] = current_board_filling_node.value
@@ -30,7 +35,7 @@ class SudokuSolver:
                 test_board[int(current_board_filling_node.board_spot[0])][int(current_board_filling_node.board_spot[1])] = current_board_filling_node.value
             if self.value_valid(test_board, int(current_node.board_spot[0]), int(current_node.board_spot[1])):
                 index += 1
-                if index >= 81:
+                if index >= MAX:
                     continue
                 new_node = Tree_Node(index, self.board_index_table[index], current_node)
                 if test_board[int(new_node.board_spot[0])][int(new_node.board_spot[1])] != '0':
@@ -99,7 +104,7 @@ class SudokuSolver:
                 row.remove(number)
             else:
                 return False
-        for a_row in range(9):
+        for a_row in range(DIM):
             number = board[a_row][column_index]
             if number == '0':
                 continue
@@ -132,8 +137,8 @@ class SudokuSolver:
         boxes = {}
         box_center = [1, 1]
         box_number = 0
-        for _row_of_boxes in range(3):
-            for _each_box in range(3):
+        for _row_of_boxes in range(BASIS):
+            for _each_box in range(BASIS):
                 box_list = []
                 for i in range(-1, 2):
                     box_list.append(str(box_center[0] + i) + str(box_center[1] - 1))
@@ -141,15 +146,15 @@ class SudokuSolver:
                     box_list.append(str(box_center[0] + i) + str(box_center[1] + 1))
                 boxes[box_number] = box_list
                 box_number += 1
-                box_center[1] += 3
-            box_center[0] += 3
-            box_center[1] -= 9
+                box_center[1] += BASIS
+            box_center[0] += BASIS
+            box_center[1] -= DIM
         return boxes
  
     def fill_board_index_table(self):
         return_list = []
-        for row in range(9):
-            for column in range(9):
+        for row in range(DIM):
+            for column in range(DIM):
                 return_list.append(str(row) + str(column))
         return return_list
 class Tree_Node:
