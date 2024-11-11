@@ -9,7 +9,3 @@ def test_sudoku_solver():
     solver = tree_sudoku.SudokuSolver(tree_sudoku.import_csv())
     for key, solution in solver.solved_board_strings.items():
         assert solver.solved_board_strings[key] == puzzles[key]
-
-
-
-test_sudoku_solver()
