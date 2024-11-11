@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #turn each csv row into a board
 #find what values can go into what spot
 #create a tree trying to put in each value
@@ -21,7 +23,9 @@ class SudokuSolver:
         self.solved_board_strings = []
         for key, value in self.boards_dict.items():
             print(f"Board: {key}")
-            self.solved_board_strings.append([self.tree_to_solution_string(value)])
+            return_string = self.tree_to_solution_string(value)
+            self.print_board(self.strings_to_board_dict([return_string])['0'])
+
     def tree_to_solution_string(self, original_board):
         index = 0
         head_node = Tree_Node(index, self.board_index_table[index])
@@ -59,7 +63,6 @@ class SudokuSolver:
         while(current_node.next_node):
             current_node = current_node.next_node
             return_string += str(current_node.value)
-        self.print_board(self.strings_to_board_dict([return_string])['0'])
         return return_string
     def import_csv(self):
         list_of_boards = []
