@@ -14,9 +14,17 @@ BASIS = 3
 DIM = BASIS * BASIS
 MAX = DIM * DIM
 
+def import_csv():
+    list_of_boards = []
+    with open('sample_sudoku_board_inputs.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            list_of_boards.append(str(*row))
+    return list_of_boards
+ 
 class SudokuSolver:
     def __init__(self):
-        self.board_strings = self.import_csv()
+        self.board_strings = import_csv()
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.box_index_table = self.fill_box_index_table()
         self.board_index_table = self.fill_board_index_table()
@@ -62,14 +70,7 @@ class SudokuSolver:
             current_node = current_node.next_node
             return_string += str(current_node.value)
         return return_string
-    def import_csv(self):
-        list_of_boards = []
-        with open('sample_sudoku_board_inputs.csv', 'r') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                list_of_boards.append(str(*row))
-        return list_of_boards
- 
+
     def strings_to_board_dict(self, board_strings):
         return_dict = {}
         for index, board in enumerate(board_strings):
