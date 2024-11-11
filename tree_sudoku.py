@@ -20,11 +20,13 @@ class SudokuSolver:
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.box_index_table = self.fill_box_index_table()
         self.board_index_table = self.fill_board_index_table()
-        self.solved_board_strings = []
+        self.solved_board_strings = dict() 
         for key, value in self.boards_dict.items():
-            print(f"Board: {key}")
             return_string = self.tree_to_solution_string(value)
-            self.print_board(self.strings_to_board_dict([return_string])['0'])
+            self.solved_board_strings[key] = return_string
+        for key, solution in self.solved_board_strings.items():
+            print(f"Board: {key}")
+            self.print_board(self.strings_to_board_dict([solution])['0'])
 
     def tree_to_solution_string(self, original_board):
         index = 0
