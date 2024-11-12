@@ -60,7 +60,7 @@ def test_advance():
     node.write(test_board)
     assert (test_board[0][3] == '9')
     back_node = node.retreat()
-    # assert (test_board[0][3] == '0')
+    assert (test_board[0][3] == '0')
     assert (node.value == "9")
     back_node.write(test_board)
     assert (test_board[0][2] == '3')

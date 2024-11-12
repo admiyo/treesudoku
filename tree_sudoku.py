@@ -202,6 +202,7 @@ class Tree_Node:
         return new_node
 
     def retreat(self):
+        self.board[self.row][self.col] = self.old_value
         node = self.last_node
         node.next_node = None
         return node
@@ -213,6 +214,8 @@ class Tree_Node:
         return self.value
 
     def write(self, board):
+        self.board = board
+        self.old_value = board[self.row][self.col]
         board[self.row][self.col] = self.value
 
     def check_solved(self, board):
