@@ -30,7 +30,7 @@ class SudokuSolver:
         self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.box_index_table = self.fill_box_index_table()
-        self.board_index_table = self.fill_board_index_table()
+        self.board_index = BoardIndexTable()
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
             return_string = self.tree_to_solution_string(value)
@@ -38,7 +38,7 @@ class SudokuSolver:
 
     def tree_to_solution_string(self, original_board):
         index = 0
-        head_node = Tree_Node(index, self.board_index_table[index])
+        head_node = Tree_Node(index, self.board_index.table[index])
         curr_node = head_node
         while index < MAX:
             curr_board_filling_node = head_node
@@ -57,7 +57,7 @@ class SudokuSolver:
                 index += 1
                 if index >= MAX:
                     continue
-                new_node = Tree_Node(index, self.board_index_table[index],
+                new_node = Tree_Node(index, self.board_index.table[index],
                                      curr_node)
                 row = int(new_node.board_spot[0])
                 col = int(new_node.board_spot[1])
@@ -169,6 +169,11 @@ class SudokuSolver:
             box_center[0] += BASIS
             box_center[1] -= DIM
         return boxes
+
+
+class BoardIndexTable:
+    def __init__(self):
+        self.table = self.fill_board_index_table()
 
     def fill_board_index_table(self):
         return_list = []
