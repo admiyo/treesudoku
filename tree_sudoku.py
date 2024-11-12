@@ -50,7 +50,7 @@ class SudokuSolver:
             curr_row = int(curr_board_filling_node.board_spot[0])
             curr_col = int(curr_board_filling_node.board_spot[1])
             test_board[curr_row][curr_col] = curr_board_filling_node.value
-            if self.box_index.value_valid(test_board, curr_row, curr_col):
+            if self.box_index.is_value_valid(test_board, curr_node):
                 index += 1
                 if index >= MAX:
                     continue
@@ -116,6 +116,11 @@ def build_board(board):
 class BoxIndex:
     def __init__(self):
         self.table = self.fill_box_index_table()
+
+    def is_value_valid(self, board, node):
+        row = int(node.board_spot[0])
+        col = int(node.board_spot[1])
+        return self.value_valid(board, row, col)
 
     def value_valid(self, board, row_index, column_index):
         row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
