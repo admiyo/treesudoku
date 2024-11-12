@@ -88,17 +88,17 @@ class SudokuSolver:
             return_dict[str(index)] = build_board(board)
         return return_dict
 
-    def print_board(self, board):
-        for index1, row in enumerate(board):
-            if index1 == 0 or index1 == 3 or index1 == 6:
-                print('-' * 21)
-            for index, char in enumerate(row):
-                print(char, '', end='')
-                if index == 2 or index == 5:
-                    print('| ', end='')
-            print('')
-            if index1 == 8:
-                print('-' * 21)
+def print_board(board):
+    for index1, row in enumerate(board):
+        if index1 == 0 or index1 == 3 or index1 == 6:
+            print('-' * 21)
+        for index, char in enumerate(row):
+            print(char, '', end='')
+            if index == 2 or index == 5:
+                print('| ', end='')
+        print('')
+        if index1 == 8:
+            print('-' * 21)
 
 
 def build_board(board):
@@ -209,6 +209,6 @@ start = time.time()
 solver = SudokuSolver(import_csv())
 for key, solution in solver.solved_board_strings.items():
     print(f"Board: {key}")
-    solver.print_board(solver.strings_to_board_dict([solution])['0'])
+    print_board(solver.strings_to_board_dict([solution])['0'])
 
 end = time.time()
