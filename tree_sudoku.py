@@ -83,14 +83,6 @@ class SudokuSolver:
         return return_string
 
     def strings_to_board_dict(self, board_strings):
-        def build_board(board):
-            rows = re.findall(r"\d{9}", board)
-            board_list = []
-            for row in rows:
-                row_list = []
-                row_list[:0] = row
-                board_list.append(row_list)
-            return board_list
         return_dict = {}
         for index, board in enumerate(board_strings):
             return_dict[str(index)] = build_board(board)
@@ -107,6 +99,16 @@ class SudokuSolver:
             print('')
             if index1 == 8:
                 print('-' * 21)
+
+
+def build_board(board):
+    rows = re.findall(r"\d{9}", board)
+    board_list = []
+    for row in rows:
+        row_list = []
+        row_list[:0] = row
+        board_list.append(row_list)
+    return board_list
 
 
 class BoxIndex:
