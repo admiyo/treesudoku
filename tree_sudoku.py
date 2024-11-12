@@ -73,7 +73,9 @@ class SudokuSolver:
                     curr_node.next()
                 else:
                     curr_node.next()
+        return self.build_solution_string(head_node)
 
+    def build_solution_string(self, head_node):
         return_string = ''
         curr_node = head_node
         return_string += str(curr_node.value)
@@ -87,6 +89,7 @@ class SudokuSolver:
         for index, board in enumerate(board_strings):
             return_dict[str(index)] = build_board(board)
         return return_dict
+
 
 def print_board(board):
     for index1, row in enumerate(board):
