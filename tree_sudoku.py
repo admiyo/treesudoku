@@ -46,7 +46,6 @@ class SudokuSolver:
             while filler.next_node:
                 filler = filler.next_node
                 filler.write(test_board)
-            filler.write(test_board)
             if self.box_index.is_value_valid(test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
                     break
