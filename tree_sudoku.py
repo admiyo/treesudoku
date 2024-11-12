@@ -50,9 +50,8 @@ class SudokuSolver:
             curr_col = int(curr_board_filling_node.board_spot[1])
             test_board[curr_row][curr_col] = curr_board_filling_node.value
             if self.box_index.is_value_valid(test_board, curr_node):
-                index += 1
-                if index >= MAX:
-                    continue
+                if curr_node.index + 1 >= MAX:
+                    break
                 curr_node = curr_node.advance(test_board)
                 curr_node.check_solved(test_board)
             else:
@@ -60,7 +59,6 @@ class SudokuSolver:
                     # backtrack
                     while len(curr_node.possible_values) == 0:
                         curr_node = curr_node.retreat()
-                        index -= 1
                 curr_node.next()
         return self.build_solution_string(head_node)
 
