@@ -29,7 +29,7 @@ class SudokuSolver:
     def __init__(self, board_strings):
         self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
-        self.box_index_table = self.fill_box_index_table()
+        self.box_index = BoxIndex()
         self.board_index = BoardIndexTable()
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
@@ -51,9 +51,7 @@ class SudokuSolver:
                 curr_row = int(curr_board_filling_node.board_spot[0])
                 curr_col = int(curr_board_filling_node.board_spot[1])
                 test_board[curr_row][curr_col] = curr_board_filling_node.value
-            if self.value_valid(test_board,
-                                int(curr_node.board_spot[0]),
-                                int(curr_node.board_spot[1])):
+            if self.box_index.value_valid(test_board, curr_row, curr_col):
                 index += 1
                 if index >= MAX:
                     continue
@@ -108,6 +106,11 @@ class SudokuSolver:
             if index1 == 8:
                 print('-' * 21)
 
+
+class BoxIndex:
+    def __init__(self):
+        self.table = self.fill_box_index_table()
+
     def value_valid(self, board, row_index, column_index):
         row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
         column = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -127,8 +130,9 @@ class SudokuSolver:
                 column.remove(number)
             else:
                 return False
-        box_indexes = self.box_index_table[self.find_box_of_index(
-                                           str(row_index) + str(column_index))]
+        box_indexes = self.table[
+            self.find_box_of_index(
+                str(row_index) + str(column_index))]
         for index in box_indexes:
             row = int(index[0])
             column = int(index[1])
@@ -143,8 +147,8 @@ class SudokuSolver:
 
     def find_box_of_index(self, index):
         box = 'box not found'
-        for each_box in self.box_index_table:
-            if index in self.box_index_table[each_box]:
+        for each_box in self.table:
+            if index in self.table[each_box]:
                 box = each_box
                 break
         return box
