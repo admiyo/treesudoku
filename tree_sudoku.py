@@ -53,10 +53,9 @@ class SudokuSolver:
                 curr_node = curr_node.advance(test_board)
                 curr_node.check_solved(test_board)
             else:
-                if len(curr_node.possible_values) == 0:
-                    # backtrack
-                    while len(curr_node.possible_values) == 0:
-                        curr_node = curr_node.retreat()
+                # backtrack
+                while len(curr_node.possible_values) == 0:
+                    curr_node = curr_node.retreat()
                 curr_node.next()
         return self.build_solution_string(head_node)
 
