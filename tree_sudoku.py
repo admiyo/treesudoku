@@ -43,14 +43,10 @@ class SudokuSolver:
         while index < MAX:
             curr_board_filling_node = head_node
             test_board = copy.deepcopy(original_board)
-            curr_row = int(curr_board_filling_node.board_spot[0])
-            curr_col = int(curr_board_filling_node.board_spot[1])
-            test_board[curr_row][curr_col] = curr_board_filling_node.value
+            curr_board_filling_node.write(test_board)
             while curr_board_filling_node.next_node:
                 curr_board_filling_node = curr_board_filling_node.next_node
-                curr_row = int(curr_board_filling_node.board_spot[0])
-                curr_col = int(curr_board_filling_node.board_spot[1])
-                test_board[curr_row][curr_col] = curr_board_filling_node.value
+                curr_board_filling_node.write(test_board)
             curr_row = int(curr_board_filling_node.board_spot[0])
             curr_col = int(curr_board_filling_node.board_spot[1])
             test_board[curr_row][curr_col] = curr_board_filling_node.value
