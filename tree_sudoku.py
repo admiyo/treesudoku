@@ -46,8 +46,8 @@ class SudokuSolver:
             while curr_board_filling_node.next_node:
                 curr_board_filling_node = curr_board_filling_node.next_node
                 curr_board_filling_node.write(test_board)
-            curr_row = int(curr_board_filling_node.board_spot[0])
-            curr_col = int(curr_board_filling_node.board_spot[1])
+            curr_row = curr_board_filling_node.row
+            curr_col = curr_board_filling_node.col
             test_board[curr_row][curr_col] = curr_board_filling_node.value
             if self.box_index.is_value_valid(test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
@@ -106,9 +106,7 @@ class BoxIndex:
         self.table = self.fill_box_index_table()
 
     def is_value_valid(self, board, node):
-        row = int(node.board_spot[0])
-        col = int(node.board_spot[1])
-        return self.value_valid(board, row, col)
+        return self.value_valid(board, node.row, node.col)
 
     def value_valid(self, board, row_index, column_index):
         row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -191,9 +189,9 @@ board_index = BoardIndexTable()
 class Tree_Node:
     def __init__(self, last_node, index):
         self.possible_values = ['1', '2', '3', '4', '5', '6', '7', '8']
-        self.board_spot = board_index.table[index]
-        self.row = int(self.board_spot[0])
-        self.col = int(self.board_spot[1])
+        board_spot = board_index.table[index]
+        self.row = int(board_spot[0])
+        self.col = int(board_spot[1])
         self.last_node = last_node
         self.next_node = None
         self.value = '9'
@@ -217,15 +215,11 @@ class Tree_Node:
         return self.value
 
     def write(self, board):
-        curr_row = int(self.board_spot[0])
-        curr_col = int(self.board_spot[1])
-        board[curr_row][curr_col] = self.value
+        board[self.row][self.col] = self.value
 
     def check_solved(self, board):
-        row = int(self.board_spot[0])
-        col = int(self.board_spot[1])
-        if board[row][col] != '0':
-            self.value = board[row][col]
+        if board[self.row][self.col] != '0':
+            self.value = board[self.row][self.col]
             self.possible_values = []
 
 

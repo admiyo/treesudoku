@@ -64,4 +64,5 @@ def test_advance():
     assert (node.value == "9")
     back_node.write(test_board)
     assert (test_board[0][2] == '3')
-    assert (back_node.board_spot == '02')
+    assert (back_node.row == 0)
+    assert (back_node.col == 2)
