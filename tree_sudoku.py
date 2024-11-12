@@ -39,7 +39,7 @@ class SudokuSolver:
         index = 0
         head_node = Tree_Node(None, index)
         curr_node = head_node
-        while index < MAX:
+        while True:
             curr_board_filling_node = head_node
             test_board = copy.deepcopy(original_board)
             curr_board_filling_node.write(test_board)
