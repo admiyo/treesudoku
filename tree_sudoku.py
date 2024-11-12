@@ -51,6 +51,9 @@ class SudokuSolver:
                 curr_row = int(curr_board_filling_node.board_spot[0])
                 curr_col = int(curr_board_filling_node.board_spot[1])
                 test_board[curr_row][curr_col] = curr_board_filling_node.value
+            curr_row = int(curr_board_filling_node.board_spot[0])
+            curr_col = int(curr_board_filling_node.board_spot[1])
+            test_board[curr_row][curr_col] = curr_board_filling_node.value
             if self.box_index.value_valid(test_board, curr_row, curr_col):
                 index += 1
                 if index >= MAX:
