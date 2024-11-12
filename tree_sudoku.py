@@ -56,11 +56,7 @@ class SudokuSolver:
                     continue
                 new_node = Tree_Node(index, self.board_index.table[index],
                                      curr_node)
-                row = int(new_node.board_spot[0])
-                col = int(new_node.board_spot[1])
-                if test_board[row][col] != '0':
-                    new_node.value = test_board[row][col]
-                    new_node.possible_values = []
+                new_node.check_solved(test_board)
                 curr_node.next_node = new_node
                 curr_node = new_node
             else:
@@ -217,6 +213,13 @@ class Tree_Node:
         curr_row = int(self.board_spot[0])
         curr_col = int(self.board_spot[1])
         board[curr_row][curr_col] = self.value
+
+    def check_solved(self, board):
+        row = int(self.board_spot[0])
+        col = int(self.board_spot[1])
+        if board[row][col] != '0':
+            self.value = board[row][col]
+            self.possible_values = []
 
 
 start = time.time()
