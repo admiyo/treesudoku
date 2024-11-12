@@ -36,6 +36,12 @@ class SudokuSolver:
             self.solved_board_strings[key] = return_string
 
     def tree_to_solution_string(self, original_board):
+        def advance(node, test_board, index):
+            new_node = Tree_Node(board_index.table[index], node)
+            new_node.check_solved(test_board)
+            node.next_node = new_node
+            return new_node
+
         index = 0
         head_node = Tree_Node(board_index.table[index])
         curr_node = head_node
@@ -53,10 +59,8 @@ class SudokuSolver:
                 index += 1
                 if index >= MAX:
                     continue
-                new_node = Tree_Node(board_index.table[index], curr_node)
-                new_node.check_solved(test_board)
-                curr_node.next_node = new_node
-                curr_node = new_node
+                curr_node = advance(curr_node, test_board, index)
+                curr_node.check_solved(test_board)
             else:
                 if len(curr_node.possible_values) == 0:
                     # backtrack
