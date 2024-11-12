@@ -208,6 +208,13 @@ class Tree_Node:
 
     def __str__(self):
         return self.value
+
+    def write(self, board):
+        curr_row = int(self.board_spot[0])
+        curr_col = int(self.board_spot[1])
+        board[curr_row][curr_col] = self.value
+
+
 start = time.time()
 solver = SudokuSolver(import_csv())
 for key, solution in solver.solved_board_strings.items():
