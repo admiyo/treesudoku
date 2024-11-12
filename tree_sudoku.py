@@ -192,6 +192,8 @@ class Tree_Node:
     def __init__(self, last_node, index):
         self.possible_values = ['1', '2', '3', '4', '5', '6', '7', '8']
         self.board_spot = board_index.table[index]
+        self.row = int(self.board_spot[0])
+        self.col = int(self.board_spot[1])
         self.last_node = last_node
         self.next_node = None
         self.value = '9'
