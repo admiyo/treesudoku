@@ -40,15 +40,15 @@ class SudokuSolver:
         head_node = Tree_Node(None, index)
         curr_node = head_node
         while True:
-            curr_board_filling_node = head_node
+            filler = head_node
             test_board = copy.deepcopy(original_board)
-            curr_board_filling_node.write(test_board)
-            while curr_board_filling_node.next_node:
-                curr_board_filling_node = curr_board_filling_node.next_node
-                curr_board_filling_node.write(test_board)
-            curr_row = curr_board_filling_node.row
-            curr_col = curr_board_filling_node.col
-            test_board[curr_row][curr_col] = curr_board_filling_node.value
+            filler.write(test_board)
+            while filler.next_node:
+                filler = filler.next_node
+                filler.write(test_board)
+            curr_row = filler.row
+            curr_col = filler.col
+            test_board[curr_row][curr_col] = filler.value
             if self.box_index.is_value_valid(test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
                     break
