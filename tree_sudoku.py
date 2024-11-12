@@ -35,49 +35,49 @@ class SudokuSolver:
     def tree_to_solution_string(self, original_board):
         index = 0
         head_node = Tree_Node(index, self.board_index_table[index])
-        current_node = head_node
+        curr_node = head_node
         while index < MAX:
-            current_board_filling_node = head_node
+            curr_board_filling_node = head_node
             test_board = copy.deepcopy(original_board)
-            curr_row = int(current_board_filling_node.board_spot[0]) 
-            curr_col = int(current_board_filling_node.board_spot[1])
-            test_board[curr_row][curr_col] = current_board_filling_node.value
-            while current_board_filling_node.next_node:
-                current_board_filling_node = current_board_filling_node.next_node
-                curr_row = int(current_board_filling_node.board_spot[0])
-                curr_col = int(current_board_filling_node.board_spot[1])
-                test_board[curr_row][curr_col] = current_board_filling_node.value
+            curr_row = int(curr_board_filling_node.board_spot[0]) 
+            curr_col = int(curr_board_filling_node.board_spot[1])
+            test_board[curr_row][curr_col] = curr_board_filling_node.value
+            while curr_board_filling_node.next_node:
+                curr_board_filling_node = curr_board_filling_node.next_node
+                curr_row = int(curr_board_filling_node.board_spot[0])
+                curr_col = int(curr_board_filling_node.board_spot[1])
+                test_board[curr_row][curr_col] = curr_board_filling_node.value
             if self.value_valid(test_board,
-                                int(current_node.board_spot[0]),
-                                int(current_node.board_spot[1])):
+                                int(curr_node.board_spot[0]),
+                                int(curr_node.board_spot[1])):
                 index += 1
                 if index >= MAX:
                     continue
                 new_node = Tree_Node(index, self.board_index_table[index],
-                                     current_node)
+                                     curr_node)
                 row = int(new_node.board_spot[0])
                 col = int(new_node.board_spot[1])
                 if test_board[row][col] != '0':
                     new_node.value = test_board[row][col]
                     new_node.possible_values = []
-                current_node.next_node = new_node
-                current_node = new_node
+                curr_node.next_node = new_node
+                curr_node = new_node
             else:
-                if len(current_node.possible_values) == 0:
-                    while len(current_node.possible_values) == 0:
-                        current_node = current_node.last_node
-                        current_node.next_node = None
+                if len(curr_node.possible_values) == 0:
+                    while len(curr_node.possible_values) == 0:
+                        curr_node = curr_node.last_node
+                        curr_node.next_node = None
                         index -= 1
-                    current_node.next()
+                    curr_node.next()
                 else:
-                    current_node.next()
+                    curr_node.next()
 
         return_string = ''
-        current_node = head_node
-        return_string += str(current_node.value)
-        while (current_node.next_node):
-            current_node = current_node.next_node
-            return_string += str(current_node.value)
+        curr_node = head_node
+        return_string += str(curr_node.value)
+        while (curr_node.next_node):
+            curr_node = curr_node.next_node
+            return_string += str(curr_node.value)
         return return_string
 
     def strings_to_board_dict(self, board_strings):
