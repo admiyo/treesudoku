@@ -51,7 +51,6 @@ class SudokuSolver:
                 if curr_node.index + 1 >= MAX:
                     break
                 curr_node = curr_node.advance(test_board)
-                curr_node.check_solved(test_board)
             else:
                 # backtrack
                 while len(curr_node.possible_values) == 0:
