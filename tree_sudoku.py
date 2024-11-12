@@ -36,10 +36,6 @@ class SudokuSolver:
             self.solved_board_strings[key] = return_string
 
     def tree_to_solution_string(self, original_board):
-        def retreat(curr_node):
-            node = curr_node.last_node
-            node.next_node = None
-            return node
         index = 0
         head_node = Tree_Node(board_index.table[index])
         curr_node = head_node
@@ -63,7 +59,7 @@ class SudokuSolver:
                 if len(curr_node.possible_values) == 0:
                     # backtrack
                     while len(curr_node.possible_values) == 0:
-                        curr_node = retreat(curr_node)
+                        curr_node = curr_node.retreat()
                         index -= 1
                 curr_node.next()
         return self.build_solution_string(head_node)
@@ -207,6 +203,11 @@ class Tree_Node:
         new_node.check_solved(test_board)
         self.next_node = new_node
         return new_node
+
+    def retreat(self):
+        node = self.last_node
+        node.next_node = None
+        return node
 
     def next(self):
         self.value = self.possible_values.pop()
