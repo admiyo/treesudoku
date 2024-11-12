@@ -37,7 +37,7 @@ class SudokuSolver:
 
     def tree_to_solution_string(self, original_board):
         index = 0
-        head_node = Tree_Node(board_index.table[index])
+        head_node = Tree_Node(None, index)
         curr_node = head_node
         while index < MAX:
             curr_board_filling_node = head_node
@@ -53,7 +53,7 @@ class SudokuSolver:
                 index += 1
                 if index >= MAX:
                     continue
-                curr_node = curr_node.advance(test_board, index)
+                curr_node = curr_node.advance(test_board)
                 curr_node.check_solved(test_board)
             else:
                 if len(curr_node.possible_values) == 0:
@@ -191,15 +191,16 @@ board_index = BoardIndexTable()
 
 
 class Tree_Node:
-    def __init__(self, board_spot, last_node=None, next_node=None):
+    def __init__(self, last_node, index):
         self.possible_values = ['1', '2', '3', '4', '5', '6', '7', '8']
-        self.board_spot = board_spot
-        self.next_node = next_node
+        self.board_spot = board_index.table[index]
         self.last_node = last_node
+        self.next_node = None
         self.value = '9'
+        self.index = index
 
-    def advance(self, test_board, index):
-        new_node = Tree_Node(board_index.table[index], self)
+    def advance(self, test_board):
+        new_node = Tree_Node(self, self.index + 1)
         new_node.check_solved(test_board)
         self.next_node = new_node
         return new_node
