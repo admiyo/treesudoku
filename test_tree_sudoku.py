@@ -2,16 +2,16 @@ from treesudoku import tree_sudoku
 
 puzzles = {
     "0": ("483921657" +
-          "967345821" + 
+          "967345821" +
           "251876493" +
-          "548132976" + 
+          "548132976" +
           "729564138" +
           "136798245" +
           "372689514" +
           "814253769" +
           "695417382"),
     "1": ("245981376" +
-          "169273584" + 
+          "169273584" +
           "837564219" +
           "976125438" +
           "513498627" +
@@ -29,6 +29,8 @@ puzzles = {
           "834259671" +
           "517643892")
 }
+
+
 def test_sudoku_solver():
     solver = tree_sudoku.SudokuSolver(tree_sudoku.import_csv())
     for key, solution in solver.solved_board_strings.items():

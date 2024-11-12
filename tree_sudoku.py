@@ -1,18 +1,20 @@
 #!/usr/bin/python
 
-#turn each csv row into a board
-#find what values can go into what spot
-#create a tree trying to put in each value
-#if value can not be possible, end stem, go back up the tree
-#retrun the branch when tree is 81 layers deep, the board is filled
+# turn each csv row into a board
+# find what values can go into what spot
+# create a tree trying to put in each value
+# if value can not be possible, end stem, go back up the tree
+# return the branch when tree is 81 layers deep, the board is filled
 import csv
 import re
 import copy
 import time
 
+
 BASIS = 3
 DIM = BASIS * BASIS
 MAX = DIM * DIM
+
 
 def import_csv():
     list_of_boards = []
@@ -21,17 +23,19 @@ def import_csv():
         for row in reader:
             list_of_boards.append(str(*row))
     return list_of_boards
- 
+
+
 class SudokuSolver:
     def __init__(self, board_strings):
         self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.box_index_table = self.fill_box_index_table()
         self.board_index_table = self.fill_board_index_table()
-        self.solved_board_strings = dict() 
+        self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
             return_string = self.tree_to_solution_string(value)
             self.solved_board_strings[key] = return_string
+
     def tree_to_solution_string(self, original_board):
         index = 0
         head_node = Tree_Node(index, self.board_index_table[index])
@@ -39,7 +43,7 @@ class SudokuSolver:
         while index < MAX:
             curr_board_filling_node = head_node
             test_board = copy.deepcopy(original_board)
-            curr_row = int(curr_board_filling_node.board_spot[0]) 
+            curr_row = int(curr_board_filling_node.board_spot[0])
             curr_col = int(curr_board_filling_node.board_spot[1])
             test_board[curr_row][curr_col] = curr_board_filling_node.value
             while curr_board_filling_node.next_node:
