@@ -41,11 +41,7 @@ class SudokuSolver:
         head_node = Tree_Node(None, index)
         curr_node = head_node
         while True:
-            filler = head_node
-            filler.write(test_board)
-            while filler.next_node:
-                filler = filler.next_node
-                filler.write(test_board)
+            curr_node.write(test_board)
             if self.box_index.is_value_valid(test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
                     break
