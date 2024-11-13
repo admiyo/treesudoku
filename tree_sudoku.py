@@ -191,6 +191,7 @@ class Tree_Node:
         self.next_node = None
         self.value = '9'
         self.index = index
+        self.old_value = None
 
     def advance(self, test_board):
         new_node = Tree_Node(self, self.index + 1)
@@ -212,7 +213,8 @@ class Tree_Node:
 
     def write(self, board):
         self.board = board
-        self.old_value = board[self.row][self.col]
+        if self.old_value is None:
+            self.old_value = board[self.row][self.col]
         board[self.row][self.col] = self.value
 
     def check_solved(self, board):
