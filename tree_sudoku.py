@@ -37,11 +37,11 @@ class SudokuSolver:
 
     def tree_to_solution_string(self, original_board):
         index = 0
+        test_board = copy.deepcopy(original_board)
         head_node = Tree_Node(None, index)
         curr_node = head_node
         while True:
             filler = head_node
-            test_board = copy.deepcopy(original_board)
             filler.write(test_board)
             while filler.next_node:
                 filler = filler.next_node
