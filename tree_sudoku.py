@@ -92,6 +92,13 @@ def build_board(board):
     return board_list
 
 
+def possible_values():
+    values = []
+    for index in range(1, DIM + 1):
+        values.append('%d' % index)
+    return values
+
+
 class BoxIndex:
     def __init__(self):
         self.table = self.fill_box_index_table()
@@ -100,9 +107,9 @@ class BoxIndex:
         return self.value_valid(board, node.row, node.col)
 
     def value_valid(self, board, row_index, column_index):
-        row = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-        column = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-        square = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+        row = possible_values()
+        column = possible_values()
+        square = possible_values()
         for number in board[row_index]:
             if number == '0':
                 continue
@@ -179,13 +186,13 @@ board_index = BoardIndexTable()
 
 class Tree_Node:
     def __init__(self, last_node, index):
-        self.possible_values = ['1', '2', '3', '4', '5', '6', '7', '8']
+        self.possible_values = possible_values()
+        self.value = self.possible_values.pop()
         board_spot = board_index.table[index]
         self.row = int(board_spot[0])
         self.col = int(board_spot[1])
         self.last_node = last_node
         self.next_node = None
-        self.value = '9'
         self.index = index
         self.old_value = None
 
