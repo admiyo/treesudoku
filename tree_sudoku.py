@@ -109,7 +109,7 @@ class BoxIndex:
     def value_valid(self, board, row_index, column_index):
         row = possible_values()
         column = possible_values()
-        square = possible_values()
+        box = possible_values()
         for number in board[row_index]:
             if number == '0':
                 continue
@@ -134,8 +134,8 @@ class BoxIndex:
             number = board[row][column]
             if number == '0':
                 continue
-            if number in square:
-                square.remove(number)
+            if number in box:
+                box.remove(number)
             else:
                 return False
         return True
