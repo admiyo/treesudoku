@@ -145,12 +145,25 @@ def is_box_valid(board, row_index, column_index):
     return True
 
 
+def is_set_valid(board, row_index, column_index, generator):
+    box = possible_values()
+    for (row, column) in generator(row_index, column_index):
+        number = board[row][column]
+        if number == '0':
+            continue
+        if number in box:
+            box.remove(number)
+        else:
+            return False
+    return True
+
+
 def is_value_valid(board, node):
     if not is_row_valid(board, node.row, node.col):
         return False
     if not is_col_valid(board, node.row, node.col):
         return False
-    return is_box_valid(board, node.row, node.col)
+    return is_set_valid(board, node.row, node.col, box_generator)
 
 
 def index_to_row_col(index):
