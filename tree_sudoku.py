@@ -122,6 +122,16 @@ def is_col_valid(board, row_index, column_index):
     return True
 
 
+def column_generator(row, col):
+    for i in range(0, DIM):
+        yield (i, col)
+
+
+def row_generator(row, col):
+    for i in range(0, DIM):
+        yield (row, i)
+
+
 def box_generator(row, col):
     row_mod = row % BASIS
     start_row = row - row_mod
@@ -130,19 +140,6 @@ def box_generator(row, col):
     for i in range(0, BASIS):
         for j in range(0, BASIS):
             yield (start_row + i, start_col + j)
-
-
-def is_box_valid(board, row_index, column_index):
-    box = possible_values()
-    for (row, column) in box_generator(row_index, column_index):
-        number = board[row][column]
-        if number == '0':
-            continue
-        if number in box:
-            box.remove(number)
-        else:
-            return False
-    return True
 
 
 def is_set_valid(board, row_index, column_index, generator):
@@ -159,9 +156,9 @@ def is_set_valid(board, row_index, column_index, generator):
 
 
 def is_value_valid(board, node):
-    if not is_row_valid(board, node.row, node.col):
+    if not is_set_valid(board, node.row, node.col, column_generator):
         return False
-    if not is_col_valid(board, node.row, node.col):
+    if not is_set_valid(board, node.row, node.col, row_generator):
         return False
     return is_set_valid(board, node.row, node.col, box_generator)
 
