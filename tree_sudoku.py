@@ -122,6 +122,23 @@ def is_col_valid(board, column_index):
             return False
     return True
 
+def is_box_valid(box_index, board, row_index, column_index):
+    box = possible_values()
+    box_indexes = box_index.table[
+        box_index.find_box_of_index(
+            str(row_index) + str(column_index))]
+    for index in box_indexes:
+        row = int(index[0])
+        column = int(index[1])
+        number = board[row][column]
+        if number == '0':
+            continue
+        if number in box:
+            box.remove(number)
+        else:
+            return False
+    return True
+
 
 class BoxIndex:
     def __init__(self):
@@ -132,24 +149,7 @@ class BoxIndex:
             return False
         if not is_col_valid(board, node.col):
             return False
-        return self.is_box_valid(board, node.row, node.col)
-
-    def is_box_valid(self, board, row_index, column_index):
-        box = possible_values()
-        box_indexes = self.table[
-            self.find_box_of_index(
-                str(row_index) + str(column_index))]
-        for index in box_indexes:
-            row = int(index[0])
-            column = int(index[1])
-            number = board[row][column]
-            if number == '0':
-                continue
-            if number in box:
-                box.remove(number)
-            else:
-                return False
-        return True
+        return is_box_valid(self, board, node.row, node.col)
 
     def find_box_of_index(self, index):
         box = 'box not found'
