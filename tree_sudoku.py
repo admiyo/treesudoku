@@ -99,6 +99,18 @@ def possible_values():
     return values
 
 
+def is_row_valid(board, row_index):
+    row = possible_values()
+    for number in board[row_index]:
+        if number == '0':
+            continue
+        if number in row:
+            row.remove(number)
+        else:
+            return False
+    return True
+
+
 class BoxIndex:
     def __init__(self):
         self.table = self.fill_box_index_table()
@@ -107,16 +119,10 @@ class BoxIndex:
         return self.value_valid(board, node.row, node.col)
 
     def value_valid(self, board, row_index, column_index):
-        row = possible_values()
         column = possible_values()
         box = possible_values()
-        for number in board[row_index]:
-            if number == '0':
-                continue
-            if number in row:
-                row.remove(number)
-            else:
-                return False
+        if not is_row_valid(board, row_index):
+            return False
         for a_row in range(DIM):
             number = board[a_row][column_index]
             if number == '0':
