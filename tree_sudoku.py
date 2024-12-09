@@ -110,6 +110,7 @@ def is_row_valid(board, row_index):
             return False
     return True
 
+
 def is_col_valid(board, column_index):
     column = possible_values()
     for a_row in range(DIM):
@@ -122,14 +123,20 @@ def is_col_valid(board, column_index):
             return False
     return True
 
+
+def box_generator(row, col):
+    row_mod = row % BASIS
+    start_row = row - row_mod
+    col_mod = col % BASIS
+    start_col = col - col_mod
+    for i in range(0, BASIS):
+        for j in range(0, BASIS):
+            yield (start_row + i, start_col + j)
+
+
 def is_box_valid(box_index, board, row_index, column_index):
     box = possible_values()
-    box_indexes = box_index.table[
-        box_index.find_box_of_index(
-            str(row_index) + str(column_index))]
-    for index in box_indexes:
-        row = int(index[0])
-        column = int(index[1])
+    for (row, column) in box_generator(row_index, column_index):
         number = board[row][column]
         if number == '0':
             continue
@@ -139,13 +146,13 @@ def is_box_valid(box_index, board, row_index, column_index):
             return False
     return True
 
+
 def is_value_valid(box_index, board, node):
     if not is_row_valid(board, node.row):
         return False
     if not is_col_valid(board, node.col):
         return False
     return is_box_valid(box_index, board, node.row, node.col)
-
 
 
 class BoxIndex:
