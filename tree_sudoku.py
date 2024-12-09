@@ -35,9 +35,8 @@ class SudokuSolver:
             self.solved_board_strings[key] = return_string
 
     def tree_to_solution_string(self, original_board):
-        index = 0
         test_board = copy.deepcopy(original_board)
-        head_node = Tree_Node(None, index)
+        head_node = Tree_Node(None, 0)
         curr_node = head_node
         while True:
             curr_node.write(test_board)
