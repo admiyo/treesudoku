@@ -97,7 +97,7 @@ def possible_values():
     return values
 
 
-def is_row_valid(board, row_index):
+def is_row_valid(board, row_index, column_index):
     row = possible_values()
     for number in board[row_index]:
         if number == '0':
@@ -109,7 +109,7 @@ def is_row_valid(board, row_index):
     return True
 
 
-def is_col_valid(board, column_index):
+def is_col_valid(board, row_index, column_index):
     column = possible_values()
     for a_row in range(DIM):
         number = board[a_row][column_index]
@@ -146,9 +146,9 @@ def is_box_valid(board, row_index, column_index):
 
 
 def is_value_valid(board, node):
-    if not is_row_valid(board, node.row):
+    if not is_row_valid(board, node.row, node.col):
         return False
-    if not is_col_valid(board, node.col):
+    if not is_col_valid(board, node.row, node.col):
         return False
     return is_box_valid(board, node.row, node.col)
 
