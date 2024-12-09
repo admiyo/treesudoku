@@ -29,7 +29,6 @@ class SudokuSolver:
     def __init__(self, board_strings):
         self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
-        self.box_index = BoxIndex()
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
             return_string = self.tree_to_solution_string(value)
@@ -42,7 +41,7 @@ class SudokuSolver:
         curr_node = head_node
         while True:
             curr_node.write(test_board)
-            if is_value_valid(self.box_index, test_board, curr_node):
+            if is_value_valid(test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
                     break
                 curr_node = curr_node.advance(test_board)
@@ -134,7 +133,7 @@ def box_generator(row, col):
             yield (start_row + i, start_col + j)
 
 
-def is_box_valid(box_index, board, row_index, column_index):
+def is_box_valid(board, row_index, column_index):
     box = possible_values()
     for (row, column) in box_generator(row_index, column_index):
         number = board[row][column]
@@ -147,46 +146,12 @@ def is_box_valid(box_index, board, row_index, column_index):
     return True
 
 
-def is_value_valid(box_index, board, node):
+def is_value_valid(board, node):
     if not is_row_valid(board, node.row):
         return False
     if not is_col_valid(board, node.col):
         return False
-    return is_box_valid(box_index, board, node.row, node.col)
-
-
-class BoxIndex:
-    def __init__(self):
-        self.table = self.fill_box_index_table()
-
-    def find_box_of_index(self, index):
-        box = 'box not found'
-        for each_box in self.table:
-            if index in self.table[each_box]:
-                box = each_box
-                break
-        return box
-
-    def fill_box_index_table(self):
-        boxes = {}
-        box_center = [1, 1]
-        box_number = 0
-        for _row_of_boxes in range(BASIS):
-            for _each_box in range(BASIS):
-                box_list = []
-                for i in range(-1, 2):
-                    box_list.append(str(box_center[0] + i) +
-                                    str(box_center[1] - 1))
-                    box_list.append(str(box_center[0] + i) +
-                                    str(box_center[1]))
-                    box_list.append(str(box_center[0] + i) +
-                                    str(box_center[1] + 1))
-                boxes[box_number] = box_list
-                box_number += 1
-                box_center[1] += BASIS
-            box_center[0] += BASIS
-            box_center[1] -= DIM
-        return boxes
+    return is_box_valid(board, node.row, node.col)
 
 
 class BoardIndexTable:
