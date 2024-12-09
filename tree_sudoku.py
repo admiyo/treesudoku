@@ -128,14 +128,14 @@ class BoxIndex:
         self.table = self.fill_box_index_table()
 
     def is_value_valid(self, board, node):
+        if not is_row_valid(board, node.row):
+            return False
+        if not is_col_valid(board, node.col):
+            return False
         return self.value_valid(board, node.row, node.col)
 
     def value_valid(self, board, row_index, column_index):
         box = possible_values()
-        if not is_row_valid(board, row_index):
-            return False
-        if not is_col_valid(board, column_index):
-            return False
         box_indexes = self.table[
             self.find_box_of_index(
                 str(row_index) + str(column_index))]
