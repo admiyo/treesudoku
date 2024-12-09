@@ -42,7 +42,7 @@ class SudokuSolver:
         curr_node = head_node
         while True:
             curr_node.write(test_board)
-            if self.box_index.is_value_valid(test_board, curr_node):
+            if is_value_valid(self.box_index, test_board, curr_node):
                 if curr_node.index + 1 >= MAX:
                     break
                 curr_node = curr_node.advance(test_board)
@@ -139,17 +139,18 @@ def is_box_valid(box_index, board, row_index, column_index):
             return False
     return True
 
+def is_value_valid(box_index, board, node):
+    if not is_row_valid(board, node.row):
+        return False
+    if not is_col_valid(board, node.col):
+        return False
+    return is_box_valid(box_index, board, node.row, node.col)
+
+
 
 class BoxIndex:
     def __init__(self):
         self.table = self.fill_box_index_table()
-
-    def is_value_valid(self, board, node):
-        if not is_row_valid(board, node.row):
-            return False
-        if not is_col_valid(board, node.col):
-            return False
-        return is_box_valid(self, board, node.row, node.col)
 
     def find_box_of_index(self, index):
         box = 'box not found'
