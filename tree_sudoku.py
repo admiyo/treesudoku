@@ -167,13 +167,17 @@ class BoardIndexTable:
 board_index = BoardIndexTable()
 
 
+def index_to_row_col(index):
+    col = int(index % DIM)
+    row = int((index - col) / DIM)
+    return (row, col)
+
+
 class Tree_Node:
     def __init__(self, last_node, index):
         self.possible_values = possible_values()
         self.value = self.possible_values.pop()
-        board_spot = board_index.table[index]
-        self.row = int(board_spot[0])
-        self.col = int(board_spot[1])
+        (self.row, self.col) = index_to_row_col(index)
         self.last_node = last_node
         self.next_node = None
         self.index = index

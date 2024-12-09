@@ -41,6 +41,16 @@ puzzle0 = ("003020600" +
            "005010300")
 
 
+def test_index_to_row_col():
+    (row, col) = tree_sudoku.index_to_row_col(0)
+    assert (row == 0)
+    assert (col == 0)
+
+    (row, col) = tree_sudoku.index_to_row_col(80)
+    assert (row == 8)
+    assert (col == 8)
+
+
 def test_sudoku_solver():
     solver = tree_sudoku.SudokuSolver(tree_sudoku.import_csv())
     for key, solution in solver.solved_board_strings.items():
