@@ -97,31 +97,6 @@ def possible_values():
     return values
 
 
-def is_row_valid(board, row_index, column_index):
-    row = possible_values()
-    for number in board[row_index]:
-        if number == '0':
-            continue
-        if number in row:
-            row.remove(number)
-        else:
-            return False
-    return True
-
-
-def is_col_valid(board, row_index, column_index):
-    column = possible_values()
-    for a_row in range(DIM):
-        number = board[a_row][column_index]
-        if number == '0':
-            continue
-        if number in column:
-            column.remove(number)
-        else:
-            return False
-    return True
-
-
 def column_generator(row, col):
     for i in range(0, DIM):
         yield (i, col)
