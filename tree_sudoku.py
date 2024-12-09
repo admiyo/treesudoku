@@ -31,10 +31,10 @@ class SudokuSolver:
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
-            return_string = self.tree_to_solution_string(value)
+            return_string = self.solve(value)
             self.solved_board_strings[key] = return_string
 
-    def tree_to_solution_string(self, original_board):
+    def solve(self, original_board):
         test_board = copy.deepcopy(original_board)
         head_node = Tree_Node(None, 0)
         curr_node = head_node
