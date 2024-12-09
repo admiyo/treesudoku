@@ -153,20 +153,6 @@ def is_value_valid(board, node):
     return is_box_valid(board, node.row, node.col)
 
 
-class BoardIndexTable:
-    def __init__(self):
-        self.table = self.fill_board_index_table()
-
-    def fill_board_index_table(self):
-        return_list = []
-        for row in range(DIM):
-            for column in range(DIM):
-                return_list.append(str(row) + str(column))
-        return return_list
-
-board_index = BoardIndexTable()
-
-
 def index_to_row_col(index):
     col = int(index % DIM)
     row = int((index - col) / DIM)
