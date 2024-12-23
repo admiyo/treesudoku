@@ -35,7 +35,7 @@ class SudokuSolver:
             self.solved_board_strings[key] = return_string
 
     def solve(self, original_board):
-        test_board = copy.deepcopy(original_board)
+        test_board = copy.deepcopy(original_board.board_list)
         head_node = Tree_Node(None, 0)
         curr_node = head_node
         while True:
@@ -63,12 +63,12 @@ class SudokuSolver:
     def strings_to_board_dict(self, board_strings):
         return_dict = {}
         for index, board_string in enumerate(board_strings):
-            return_dict[str(index)] = build_board(board_string)
+            return_dict[str(index)] = Board(board_string)
         return return_dict
 
 
 def print_board(board):
-    for index1, row in enumerate(board):
+    for index1, row in enumerate(board.board_list):
         if index1 == 0 or index1 == 3 or index1 == 6:
             print('-' * 21)
         for index, char in enumerate(row):
@@ -81,7 +81,13 @@ def print_board(board):
 
 
 class Board:
-    board_list = []
+    def __init__(self, board_string):
+        rows = re.findall(r"\d{9}", board_string)
+        self.board_list = []
+        for row in rows:
+            row_list = []
+            row_list[:0] = row
+            self.board_list.append(row_list)
 
 
 def build_board(board_string):
