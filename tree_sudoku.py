@@ -90,16 +90,6 @@ class Board:
             self.board_list.append(row_list)
 
 
-def build_board(board_string):
-    rows = re.findall(r"\d{9}", board_string)
-    board_list = []
-    for row in rows:
-        row_list = []
-        row_list[:0] = row
-        board_list.append(row_list)
-    return board_list
-
-
 def possible_values():
     values = []
     for index in range(1, DIM + 1):
