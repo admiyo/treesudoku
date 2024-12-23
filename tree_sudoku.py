@@ -80,6 +80,10 @@ def print_board(board):
             print('-' * 21)
 
 
+class Board:
+    board_list = []
+
+
 def build_board(board_string):
     rows = re.findall(r"\d{9}", board_string)
     board_list = []
