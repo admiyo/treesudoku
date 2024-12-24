@@ -189,10 +189,16 @@ def index_to_row_col(index):
 
 def main():
     start = time.time()
-    solver = SudokuSolver(import_csv())
-    for key, solution in solver.solved_board_strings.items():
+    board_strings = import_csv()
+    boards_dict = strings_to_board_dict(board_strings)
+    solved_board_strings = dict()
+    for key, value in boards_dict.items():
+        return_string = value.solve()
+        solved_board_strings[key] = return_string
+
+    for key, solution in solved_board_strings.items():
         print(f"Board: {key}")
-        print_board(solver.strings_to_board_dict([solution])['0'])
+        print_board(strings_to_board_dict([solution])['0'])
     end = time.time()
     print("start time = %f" % start)
     print("end   time = %f" % end)
