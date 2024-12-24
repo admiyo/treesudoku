@@ -52,9 +52,16 @@ def test_index_to_row_col():
 
 
 def test_sudoku_solver():
-    solver = tree_sudoku.SudokuSolver(tree_sudoku.import_csv())
-    for key, solution in solver.solved_board_strings.items():
-        assert solver.solved_board_strings[key] == puzzles[key]
+
+    board_strings = tree_sudoku.import_csv()
+    boards_dict = tree_sudoku.strings_to_board_dict(board_strings)
+    solved_board_strings = dict()
+    for key, value in boards_dict.items():
+        return_string = value.solve()
+        solved_board_strings[key] = return_string
+
+    for key, solution in solved_board_strings.items():
+        assert solved_board_strings[key] == puzzles[key]
 
 
 def test_advance():

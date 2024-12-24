@@ -103,16 +103,6 @@ class Tree_Node:
         return return_string
 
 
-class SudokuSolver:
-    def __init__(self, board_strings: List[str]):
-        self.board_strings = board_strings
-        self.boards_dict = strings_to_board_dict(self.board_strings)
-        self.solved_board_strings = dict()
-        for key, value in self.boards_dict.items():
-            return_string = value.solve()
-            self.solved_board_strings[key] = return_string
-
-
 def strings_to_board_dict(board_strings):
     return_dict = {}
     for index, board_string in enumerate(board_strings):
