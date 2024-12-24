@@ -35,54 +35,54 @@ class Board:
             row_list[:0] = row
             self.board_list.append(row_list)
 
-    def build_solution_string(self, head_node):
+    def build_solution_string(self, head_cell):
         return_string = ''
-        curr_node = head_node
-        return_string += str(curr_node.value)
-        while (curr_node.next_node):
-            curr_node = curr_node.next_node
-            return_string += str(curr_node.value)
+        curr_cell = head_cell
+        return_string += str(curr_cell.value)
+        while (curr_cell.next_cell):
+            curr_cell = curr_cell.next_cell
+            return_string += str(curr_cell.value)
         return return_string
 
     def solve(self):
         test_board = copy.deepcopy(self.board_list)
-        head_node = Tree_Node(None, 0)
-        curr_node = head_node
+        head_cell = Cell(None, 0)
+        curr_cell = head_cell
         while True:
-            curr_node.write(test_board)
-            if is_value_valid(test_board, curr_node):
-                if curr_node.index + 1 >= MAX:
+            curr_cell.write(test_board)
+            if is_value_valid(test_board, curr_cell):
+                if curr_cell.index + 1 >= MAX:
                     break
-                curr_node = curr_node.advance(test_board)
+                curr_cell = curr_cell.advance(test_board)
             else:
                 # backtrack
-                while len(curr_node.possible_values) == 0:
-                    curr_node = curr_node.retreat()
-                curr_node.pop()
-        return self.build_solution_string(head_node)
+                while len(curr_cell.possible_values) == 0:
+                    curr_cell = curr_cell.retreat()
+                curr_cell.pop()
+        return self.build_solution_string(head_cell)
 
 
-class Tree_Node:
-    def __init__(self, last_node, index):
+class Cell:
+    def __init__(self, last_cell, index):
         self.possible_values = possible_values()
         self.value = self.possible_values.pop()
         (self.row, self.col) = index_to_row_col(index)
-        self.last_node = last_node
-        self.next_node = None
+        self.last_cell = last_cell
+        self.next_cell = None
         self.index = index
         self.old_value = None
 
     def advance(self, test_board):
-        new_node = Tree_Node(self, self.index + 1)
-        new_node.check_solved(test_board)
-        self.next_node = new_node
-        return new_node
+        new_cell = Cell(self, self.index + 1)
+        new_cell.check_solved(test_board)
+        self.next_cell = new_cell
+        return new_cell
 
     def retreat(self):
         self.board[self.row][self.col] = self.old_value
-        node = self.last_node
-        node.next_node = None
-        return node
+        cell = self.last_cell
+        cell.next_cell = None
+        return cell
 
     def pop(self):
         self.value = self.possible_values.pop()
@@ -162,12 +162,12 @@ def is_set_valid(board, row_index, column_index, generator):
     return True
 
 
-def is_value_valid(board, node):
-    if not is_set_valid(board, node.row, node.col, column_generator):
+def is_value_valid(board, cell):
+    if not is_set_valid(board, cell.row, cell.col, column_generator):
         return False
-    if not is_set_valid(board, node.row, node.col, row_generator):
+    if not is_set_valid(board, cell.row, cell.col, row_generator):
         return False
-    return is_set_valid(board, node.row, node.col, box_generator)
+    return is_set_valid(board, cell.row, cell.col, box_generator)
 
 
 def index_to_row_col(index):
