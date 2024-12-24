@@ -184,10 +184,17 @@ class Tree_Node:
             self.possible_values = []
 
 
-start = time.time()
-solver = SudokuSolver(import_csv())
-for key, solution in solver.solved_board_strings.items():
-    print(f"Board: {key}")
-    print_board(solver.strings_to_board_dict([solution])['0'])
+def main():
+    start = time.time()
+    solver = SudokuSolver(import_csv())
+    for key, solution in solver.solved_board_strings.items():
+        print(f"Board: {key}")
+        print_board(solver.strings_to_board_dict([solution])['0'])
+    end = time.time()
+    print("start time = %f" % start)
+    print("end   time = %f" % end)
+    print("duration = %f" % (end - start))
 
-end = time.time()
+
+if __name__ == '__main__':
+    main()
