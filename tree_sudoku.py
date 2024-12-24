@@ -25,6 +25,16 @@ def import_csv():
     return list_of_boards
 
 
+class Board:
+    def __init__(self, board_string):
+        rows = re.findall(r"\d{9}", board_string)
+        self.board_list = []
+        for row in rows:
+            row_list = []
+            row_list[:0] = row
+            self.board_list.append(row_list)
+
+
 class SudokuSolver:
     def __init__(self, board_strings):
         self.board_strings = board_strings
@@ -34,7 +44,7 @@ class SudokuSolver:
             return_string = self.solve(value)
             self.solved_board_strings[key] = return_string
 
-    def solve(self, original_board):
+    def solve(self, original_board: Board):
         test_board = copy.deepcopy(original_board.board_list)
         head_node = Tree_Node(None, 0)
         curr_node = head_node
@@ -78,16 +88,6 @@ def print_board(board):
         print('')
         if index1 == 8:
             print('-' * 21)
-
-
-class Board:
-    def __init__(self, board_string):
-        rows = re.findall(r"\d{9}", board_string)
-        self.board_list = []
-        for row in rows:
-            row_list = []
-            row_list[:0] = row
-            self.board_list.append(row_list)
 
 
 def possible_values():
