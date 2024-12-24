@@ -35,6 +35,23 @@ class Board:
             row_list[:0] = row
             self.board_list.append(row_list)
 
+    def solve(self):
+        test_board = copy.deepcopy(self.board_list)
+        head_node = Tree_Node(None, 0)
+        curr_node = head_node
+        while True:
+            curr_node.write(test_board)
+            if is_value_valid(test_board, curr_node):
+                if curr_node.index + 1 >= MAX:
+                    break
+                curr_node = curr_node.advance(test_board)
+            else:
+                # backtrack
+                while len(curr_node.possible_values) == 0:
+                    curr_node = curr_node.retreat()
+                curr_node.next()
+        return head_node.build_solution_string()
+
 
 class Tree_Node:
     def __init__(self, last_node, index):
@@ -92,25 +109,8 @@ class SudokuSolver:
         self.boards_dict = strings_to_board_dict(self.board_strings)
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
-            return_string = self.solve(value)
+            return_string = value.solve()
             self.solved_board_strings[key] = return_string
-
-    def solve(self, original_board: Board):
-        test_board = copy.deepcopy(original_board.board_list)
-        head_node = Tree_Node(None, 0)
-        curr_node = head_node
-        while True:
-            curr_node.write(test_board)
-            if is_value_valid(test_board, curr_node):
-                if curr_node.index + 1 >= MAX:
-                    break
-                curr_node = curr_node.advance(test_board)
-            else:
-                # backtrack
-                while len(curr_node.possible_values) == 0:
-                    curr_node = curr_node.retreat()
-                curr_node.next()
-        return head_node.build_solution_string()
 
 
 def strings_to_board_dict(board_strings):
