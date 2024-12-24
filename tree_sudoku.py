@@ -87,7 +87,7 @@ class Tree_Node:
 
 
 class SudokuSolver:
-    def __init__(self, board_strings):
+    def __init__(self, board_strings: List[str]):
         self.board_strings = board_strings
         self.boards_dict = self.strings_to_board_dict(self.board_strings)
         self.solved_board_strings = dict()
