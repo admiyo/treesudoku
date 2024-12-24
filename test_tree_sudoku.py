@@ -65,7 +65,7 @@ def test_sudoku_solver():
 
 
 def test_advance():
-    test_board = tree_sudoku.Board(puzzle0).board_list
+    test_board = tree_sudoku.Solver(puzzle0).board_list
     cell = tree_sudoku.Cell(None, 0)
     cell.write(test_board)
     assert (test_board[0][0] == '9')

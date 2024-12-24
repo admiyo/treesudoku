@@ -26,7 +26,7 @@ def import_csv() -> List[str]:
     return list_of_boards
 
 
-class Board:
+class Solver:
     def __init__(self, board_string: str):
         rows = re.findall(r"\d{9}", board_string)
         self.board_list = []
@@ -105,12 +105,12 @@ class Cell:
 def strings_to_board_dict(board_strings):
     return_dict = {}
     for index, board_string in enumerate(board_strings):
-        return_dict[str(index)] = Board(board_string)
+        return_dict[str(index)] = Solver(board_string)
     return return_dict
 
 
-def print_board(board: Board):
-    for index1, row in enumerate(board.board_list):
+def print_board(solver: Solver):
+    for index1, row in enumerate(solver.board_list):
         if index1 == 0 or index1 == 3 or index1 == 6:
             print('-' * 21)
         for index, char in enumerate(row):
