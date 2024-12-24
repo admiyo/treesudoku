@@ -46,14 +46,14 @@ class Solver:
 
     def solve(self):
         test_board = copy.deepcopy(self.board_list)
-        head_cell = Cell(None, 0)
+        head_cell = Cell(test_board, None, 0)
         curr_cell = head_cell
         while True:
-            curr_cell.write(test_board)
+            curr_cell.write()
             if is_value_valid(test_board, curr_cell):
                 if curr_cell.index + 1 >= MAX:
                     break
-                curr_cell = curr_cell.advance(test_board)
+                curr_cell = curr_cell.advance()
             else:
                 # backtrack
                 while len(curr_cell.possible_values) == 0:
@@ -63,7 +63,8 @@ class Solver:
 
 
 class Cell:
-    def __init__(self, last_cell, index):
+    def __init__(self, board, last_cell, index):
+        self.board = board
         self.possible_values = possible_values()
         self.value = self.possible_values.pop()
         (self.row, self.col) = index_to_row_col(index)
@@ -72,9 +73,9 @@ class Cell:
         self.index = index
         self.old_value = None
 
-    def advance(self, test_board):
-        new_cell = Cell(self, self.index + 1)
-        new_cell.check_solved(test_board)
+    def advance(self):
+        new_cell = Cell(self.board, self, self.index + 1)
+        new_cell.check_solved()
         self.next_cell = new_cell
         return new_cell
 
@@ -90,15 +91,14 @@ class Cell:
     def __str__(self):
         return self.value
 
-    def write(self, board):
-        self.board = board
+    def write(self):
         if self.old_value is None:
-            self.old_value = board[self.row][self.col]
-        board[self.row][self.col] = self.value
+            self.old_value = self.board[self.row][self.col]
+        self.board[self.row][self.col] = self.value
 
-    def check_solved(self, board):
-        if board[self.row][self.col] != '0':
-            self.value = board[self.row][self.col]
+    def check_solved(self):
+        if self.board[self.row][self.col] != '0':
+            self.value = self.board[self.row][self.col]
             self.possible_values = []
 
 
