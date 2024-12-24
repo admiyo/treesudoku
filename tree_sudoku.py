@@ -17,7 +17,7 @@ DIM = BASIS * BASIS
 MAX = DIM * DIM
 
 
-def import_csv()->List[str]:
+def import_csv() -> List[str]:
     list_of_boards: List[str] = []
     with open('sample_sudoku_board_inputs.csv', 'r') as file:
         reader = csv.reader(file)
@@ -34,6 +34,46 @@ class Board:
             row_list: List[str] = []
             row_list[:0] = row
             self.board_list.append(row_list)
+
+
+class Tree_Node:
+    def __init__(self, last_node, index):
+        self.possible_values = possible_values()
+        self.value = self.possible_values.pop()
+        (self.row, self.col) = index_to_row_col(index)
+        self.last_node = last_node
+        self.next_node = None
+        self.index = index
+        self.old_value = None
+
+    def advance(self, test_board):
+        new_node = Tree_Node(self, self.index + 1)
+        new_node.check_solved(test_board)
+        self.next_node = new_node
+        return new_node
+
+    def retreat(self):
+        self.board[self.row][self.col] = self.old_value
+        node = self.last_node
+        node.next_node = None
+        return node
+
+    def next(self):
+        self.value = self.possible_values.pop()
+
+    def __str__(self):
+        return self.value
+
+    def write(self, board):
+        self.board = board
+        if self.old_value is None:
+            self.old_value = board[self.row][self.col]
+        board[self.row][self.col] = self.value
+
+    def check_solved(self, board):
+        if board[self.row][self.col] != '0':
+            self.value = board[self.row][self.col]
+            self.possible_values = []
 
 
 class SudokuSolver:
@@ -62,7 +102,7 @@ class SudokuSolver:
                 curr_node.next()
         return self.build_solution_string(head_node)
 
-    def build_solution_string(self, head_node):
+    def build_solution_string(self, head_node: Tree_Node):
         return_string = ''
         curr_node = head_node
         return_string += str(curr_node.value)
@@ -143,46 +183,6 @@ def index_to_row_col(index):
     col = int(index % DIM)
     row = int((index - col) / DIM)
     return (row, col)
-
-
-class Tree_Node:
-    def __init__(self, last_node, index):
-        self.possible_values = possible_values()
-        self.value = self.possible_values.pop()
-        (self.row, self.col) = index_to_row_col(index)
-        self.last_node = last_node
-        self.next_node = None
-        self.index = index
-        self.old_value = None
-
-    def advance(self, test_board):
-        new_node = Tree_Node(self, self.index + 1)
-        new_node.check_solved(test_board)
-        self.next_node = new_node
-        return new_node
-
-    def retreat(self):
-        self.board[self.row][self.col] = self.old_value
-        node = self.last_node
-        node.next_node = None
-        return node
-
-    def next(self):
-        self.value = self.possible_values.pop()
-
-    def __str__(self):
-        return self.value
-
-    def write(self, board):
-        self.board = board
-        if self.old_value is None:
-            self.old_value = board[self.row][self.col]
-        board[self.row][self.col] = self.value
-
-    def check_solved(self, board):
-        if board[self.row][self.col] != '0':
-            self.value = board[self.row][self.col]
-            self.possible_values = []
 
 
 def main():
