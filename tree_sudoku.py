@@ -101,12 +101,24 @@ class Cell:
             self.value = self.board[self.row][self.col]
             self.possible_values = []
 
+    def is_set_valid(self, generator):
+        box = possible_values()
+        for (row, column) in generator(self.row, self.col):
+            number = self.board[row][column]
+            if number == '0':
+                continue
+            if number in box:
+                box.remove(number)
+            else:
+                return False
+        return True
+
     def is_value_valid(self):
-        if not is_set_valid(self.board, self.row, self.col, column_generator):
+        if not self.is_set_valid(column_generator):
             return False
-        if not is_set_valid(self.board, self.row, self.col, row_generator):
+        if not self.is_set_valid(row_generator):
             return False
-        return is_set_valid(self.board, self.row, self.col, box_generator)
+        return self.is_set_valid(box_generator)
 
 
 def strings_to_board_dict(board_strings):
@@ -154,19 +166,6 @@ def box_generator(row, col):
     for i in range(0, BASIS):
         for j in range(0, BASIS):
             yield (start_row + i, start_col + j)
-
-
-def is_set_valid(board, row_index, column_index, generator):
-    box = possible_values()
-    for (row, column) in generator(row_index, column_index):
-        number = board[row][column]
-        if number == '0':
-            continue
-        if number in box:
-            box.remove(number)
-        else:
-            return False
-    return True
 
 
 def index_to_row_col(index):
