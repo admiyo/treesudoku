@@ -58,7 +58,7 @@ class Board:
                 # backtrack
                 while len(curr_node.possible_values) == 0:
                     curr_node = curr_node.retreat()
-                curr_node.next()
+                curr_node.pop()
         return self.build_solution_string(head_node)
 
 
@@ -84,7 +84,7 @@ class Tree_Node:
         node.next_node = None
         return node
 
-    def next(self):
+    def pop(self):
         self.value = self.possible_values.pop()
 
     def __str__(self):
