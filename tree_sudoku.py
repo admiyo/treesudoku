@@ -10,14 +10,15 @@ import re
 import copy
 import time
 
+from typing import List
 
 BASIS = 3
 DIM = BASIS * BASIS
 MAX = DIM * DIM
 
 
-def import_csv():
-    list_of_boards = []
+def import_csv()->List[str]:
+    list_of_boards: List[str] = []
     with open('sample_sudoku_board_inputs.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
@@ -26,11 +27,11 @@ def import_csv():
 
 
 class Board:
-    def __init__(self, board_string):
+    def __init__(self, board_string: str):
         rows = re.findall(r"\d{9}", board_string)
         self.board_list = []
         for row in rows:
-            row_list = []
+            row_list: List[str] = []
             row_list[:0] = row
             self.board_list.append(row_list)
 
@@ -77,7 +78,7 @@ class SudokuSolver:
         return return_dict
 
 
-def print_board(board):
+def print_board(board: Board):
     for index1, row in enumerate(board.board_list):
         if index1 == 0 or index1 == 3 or index1 == 6:
             print('-' * 21)
