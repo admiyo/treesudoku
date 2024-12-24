@@ -89,7 +89,7 @@ class Tree_Node:
 class SudokuSolver:
     def __init__(self, board_strings: List[str]):
         self.board_strings = board_strings
-        self.boards_dict = self.strings_to_board_dict(self.board_strings)
+        self.boards_dict = strings_to_board_dict(self.board_strings)
         self.solved_board_strings = dict()
         for key, value in self.boards_dict.items():
             return_string = self.solve(value)
@@ -112,11 +112,12 @@ class SudokuSolver:
                 curr_node.next()
         return head_node.build_solution_string()
 
-    def strings_to_board_dict(self, board_strings):
-        return_dict = {}
-        for index, board_string in enumerate(board_strings):
-            return_dict[str(index)] = Board(board_string)
-        return return_dict
+
+def strings_to_board_dict(board_strings):
+    return_dict = {}
+    for index, board_string in enumerate(board_strings):
+        return_dict[str(index)] = Board(board_string)
+    return return_dict
 
 
 def print_board(board: Board):
