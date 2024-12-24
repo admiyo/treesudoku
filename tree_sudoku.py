@@ -75,6 +75,16 @@ class Tree_Node:
             self.value = board[self.row][self.col]
             self.possible_values = []
 
+    def build_solution_string(self):
+        head_node: Tree_Node = self
+        return_string = ''
+        curr_node = head_node
+        return_string += str(curr_node.value)
+        while (curr_node.next_node):
+            curr_node = curr_node.next_node
+            return_string += str(curr_node.value)
+        return return_string
+
 
 class SudokuSolver:
     def __init__(self, board_strings):
@@ -100,16 +110,7 @@ class SudokuSolver:
                 while len(curr_node.possible_values) == 0:
                     curr_node = curr_node.retreat()
                 curr_node.next()
-        return self.build_solution_string(head_node)
-
-    def build_solution_string(self, head_node: Tree_Node):
-        return_string = ''
-        curr_node = head_node
-        return_string += str(curr_node.value)
-        while (curr_node.next_node):
-            curr_node = curr_node.next_node
-            return_string += str(curr_node.value)
-        return return_string
+        return head_node.build_solution_string()
 
     def strings_to_board_dict(self, board_strings):
         return_dict = {}
