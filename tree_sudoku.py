@@ -50,7 +50,7 @@ class Solver:
         curr_cell = head_cell
         while True:
             curr_cell.write()
-            if is_value_valid(test_board, curr_cell):
+            if curr_cell.is_value_valid():
                 if curr_cell.index + 1 >= MAX:
                     break
                 curr_cell = curr_cell.advance()
@@ -100,6 +100,13 @@ class Cell:
         if self.board[self.row][self.col] != '0':
             self.value = self.board[self.row][self.col]
             self.possible_values = []
+
+    def is_value_valid(self):
+        if not is_set_valid(self.board, self.row, self.col, column_generator):
+            return False
+        if not is_set_valid(self.board, self.row, self.col, row_generator):
+            return False
+        return is_set_valid(self.board, self.row, self.col, box_generator)
 
 
 def strings_to_board_dict(board_strings):
@@ -160,14 +167,6 @@ def is_set_valid(board, row_index, column_index, generator):
         else:
             return False
     return True
-
-
-def is_value_valid(board, cell):
-    if not is_set_valid(board, cell.row, cell.col, column_generator):
-        return False
-    if not is_set_valid(board, cell.row, cell.col, row_generator):
-        return False
-    return is_set_valid(board, cell.row, cell.col, box_generator)
 
 
 def index_to_row_col(index):
