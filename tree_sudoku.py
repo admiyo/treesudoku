@@ -35,6 +35,15 @@ class Board:
             row_list[:0] = row
             self.board_list.append(row_list)
 
+    def build_solution_string(self, head_node):
+        return_string = ''
+        curr_node = head_node
+        return_string += str(curr_node.value)
+        while (curr_node.next_node):
+            curr_node = curr_node.next_node
+            return_string += str(curr_node.value)
+        return return_string
+
     def solve(self):
         test_board = copy.deepcopy(self.board_list)
         head_node = Tree_Node(None, 0)
@@ -50,7 +59,7 @@ class Board:
                 while len(curr_node.possible_values) == 0:
                     curr_node = curr_node.retreat()
                 curr_node.next()
-        return head_node.build_solution_string()
+        return self.build_solution_string(head_node)
 
 
 class Tree_Node:
@@ -91,16 +100,6 @@ class Tree_Node:
         if board[self.row][self.col] != '0':
             self.value = board[self.row][self.col]
             self.possible_values = []
-
-    def build_solution_string(self):
-        head_node: Tree_Node = self
-        return_string = ''
-        curr_node = head_node
-        return_string += str(curr_node.value)
-        while (curr_node.next_node):
-            curr_node = curr_node.next_node
-            return_string += str(curr_node.value)
-        return return_string
 
 
 def strings_to_board_dict(board_strings):
