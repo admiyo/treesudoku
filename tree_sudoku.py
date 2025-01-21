@@ -12,9 +12,9 @@ import time
 
 from typing import List
 
-BASIS = 3
-DIM = BASIS * BASIS
-MAX = DIM * DIM
+BASIS: int = 3
+DIM: int = BASIS * BASIS
+MAX: int = DIM * DIM
 
 
 def import_csv() -> List[str]:
@@ -26,44 +26,8 @@ def import_csv() -> List[str]:
     return list_of_boards
 
 
-class Solver:
-    def __init__(self, board_string: str):
-        rows = re.findall(r"\d{9}", board_string)
-        self.board_list = []
-        for row in rows:
-            row_list: List[str] = []
-            row_list[:0] = row
-            self.board_list.append(row_list)
-
-    def build_solution_string(self, head_cell):
-        return_string = ''
-        curr_cell = head_cell
-        return_string += str(curr_cell.value)
-        while (curr_cell.next_cell):
-            curr_cell = curr_cell.next_cell
-            return_string += str(curr_cell.value)
-        return return_string
-
-    def solve(self):
-        test_board = copy.deepcopy(self.board_list)
-        head_cell = Cell(test_board, None, 0)
-        curr_cell = head_cell
-        while True:
-            curr_cell.write()
-            if curr_cell.is_value_valid():
-                if curr_cell.index + 1 >= MAX:
-                    break
-                curr_cell = curr_cell.advance()
-            else:
-                # backtrack
-                while len(curr_cell.possible_values) == 0:
-                    curr_cell = curr_cell.retreat()
-                curr_cell.pop()
-        return self.build_solution_string(head_cell)
-
-
 class Cell:
-    def __init__(self, board, last_cell, index):
+    def __init__(self, board, last_cell, index: int):
         self.board = board
         self.possible_values = possible_values()
         self.value = self.possible_values.pop()
@@ -101,7 +65,7 @@ class Cell:
             self.value = self.board[self.row][self.col]
             self.possible_values = []
 
-    def is_set_valid(self, generator):
+    def is_set_valid(self, generator) -> bool:
         box = possible_values()
         for (row, column) in generator(self.row, self.col):
             number = self.board[row][column]
@@ -119,6 +83,42 @@ class Cell:
         if not self.is_set_valid(row_generator):
             return False
         return self.is_set_valid(box_generator)
+
+
+class Solver:
+    def __init__(self, board_string: str):
+        rows = re.findall(r"\d{9}", board_string)
+        self.board_list = []
+        for row in rows:
+            row_list: List[str] = []
+            row_list[:0] = row
+            self.board_list.append(row_list)
+
+    def build_solution_string(self, head_cell: Cell) -> str:
+        return_string = ''
+        curr_cell = head_cell
+        return_string += str(curr_cell.value)
+        while (curr_cell.next_cell):
+            curr_cell = curr_cell.next_cell
+            return_string += str(curr_cell.value)
+        return return_string
+
+    def solve(self) -> str:
+        test_board = copy.deepcopy(self.board_list)
+        head_cell = Cell(test_board, None, 0)
+        curr_cell = head_cell
+        while True:
+            curr_cell.write()
+            if curr_cell.is_value_valid():
+                if curr_cell.index + 1 >= MAX:
+                    break
+                curr_cell = curr_cell.advance()
+            else:
+                # backtrack
+                while len(curr_cell.possible_values) == 0:
+                    curr_cell = curr_cell.retreat()
+                curr_cell.pop()
+        return self.build_solution_string(head_cell)
 
 
 def strings_to_board_dict(board_strings):
@@ -141,24 +141,24 @@ def print_board(solver: Solver):
             print('-' * 21)
 
 
-def possible_values():
+def possible_values() -> List[str]:
     values = []
     for index in range(1, DIM + 1):
         values.append('%d' % index)
     return values
 
 
-def column_generator(row, col):
+def column_generator(row: int, col: int):
     for i in range(0, DIM):
         yield (i, col)
 
 
-def row_generator(row, col):
+def row_generator(row: int, col: int):
     for i in range(0, DIM):
         yield (row, i)
 
 
-def box_generator(row, col):
+def box_generator(row: int, col: int):
     row_mod = row % BASIS
     start_row = row - row_mod
     col_mod = col % BASIS
@@ -168,7 +168,7 @@ def box_generator(row, col):
             yield (start_row + i, start_col + j)
 
 
-def index_to_row_col(index):
+def index_to_row_col(index: int):
     col = int(index % DIM)
     row = int((index - col) / DIM)
     return (row, col)
